@@ -957,10 +957,13 @@ if (!pendota._pendotaUIIsInjected) {
 	pendota.updatePendotaContents = function (e) {
 		// Get the target element's Id and Classes
 		var _id_ = (!!e ? e.id : "") || "";
-		var _classNames_ = (!!e ? e.classes : []) || [];
-		var _attrs_ = (!!e ? e.attributes : []) || [];
+		_id_ = pendota.isIdAllowed(_id_) ? _id_ : "";
+		var _classNames_ = pendota.filterClassNames((!!e ? e.classes : []) || []);
+		var _attrs_ = pendota.filterAttributes((!!e ? e.attributes : []) || []);
 		var _textContent_ = (!!e && !!e.textContent ? e.textContent.trim() : "") || "";
 		_textContent_ = _textContent_.replace(/(["])/g, "\\$1");
+		_textContent_ = pendota.isContainsAllowed(_textContent_) ? _textContent_ : '';
+
 		var _elemType_ = (!!e && !!e.nodeName ? e.nodeName.toLowerCase() : "") || ""; // stylistic choice to do lower case
 
 		var createItemRow = function(attr, rawVal, fmtVal) {
