@@ -14,7 +14,7 @@ window.pendota.filterClassNames = function (classNames) {
 };
 
 window.pendota.isIdAllowed = function (id) {
-    var idDenyList = [/^Ember.*/];
+    var idDenyList = [/^ember.*/i];
     return !idDenyList.some(function(idDenyListEl) {
         return id.match(idDenyListEl)
     });

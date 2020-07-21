@@ -1,8 +1,3 @@
-/* Reset to avoid parent styles leaking in */
-.v1-zenefits ._pendota-wrapper_ * {
-    all: initial;
-}
-
 ._pendota-outline_,
 ._pendota-outline_:hover,
 ._pendota-outline_:visited,

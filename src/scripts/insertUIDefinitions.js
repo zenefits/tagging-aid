@@ -47,6 +47,7 @@ if (!pendota._pendotaUIIsInjected) {
 	pendota.uiTextBlockId = "_pendota-text-block_";
 	pendota.uiTextTableId = "_pendota_text-table_";
 	pendota.uiAttrSelectorId = "_pendota-attr-selector_";
+	pendota.uiAttrTableId = "_pendota_attr-table_";
 	pendota.uiItemInputClass = "_pendota_form-control_";
 	pendota.copy_icon_url = chrome.extension.getURL(
 		"/src/ui/images/copy_icon.ico"
@@ -1072,10 +1073,19 @@ if (!pendota._pendotaUIIsInjected) {
 		}
 		
 		// Add id
-		document.getElementById(pendota.uiIdTableId).appendChild(createItemRow("id", _id_, '#' + _id_));
+		if (_id_ === "") {
+			document.getElementById(pendota.uiIdTableId).classList.add("_pendota-hidden_");
+		} else {
+			document.getElementById(pendota.uiIdTableId).classList.remove("_pendota-hidden_");
+			document.getElementById(pendota.uiIdTableId).appendChild(createItemRow("id", _id_, '#' + _id_));
+		}
 
 		// If no classes, show a blank
-		if (_classNames_.length === 0) document.getElementById(pendota.uiClassTableId).appendChild(createItemRow("class", '', '.' ));
+		if (_classNames_.length === 0) {
+			document.getElementById(pendota.uiClassTableId).classList.add("_pendota-hidden_");
+		} else {
+			document.getElementById(pendota.uiClassTableId).classList.remove("_pendota-hidden_");
+		}
 		// Build class rows
 		for (var i = 0; i < _classNames_.length; i++) {
 			document.getElementById(pendota.uiClassTableId).appendChild(createItemRow("class", _classNames_[i], '.' + _classNames_[i]));
@@ -1086,14 +1096,12 @@ if (!pendota._pendotaUIIsInjected) {
 			document.getElementById(pendota.uiAttrBlockId).classList.add("_pendota-hidden_");
 		} else {
 			document.getElementById(pendota.uiAttrBlockId).classList.remove("_pendota-hidden_");
-			var attrsOnly = _attrs_.map(function(v) {return v.attribute});
-			document.getElementById(pendota.uiAttrSelectorId).innerHTML = "";
-			var attrSel = createSelector(attrsOnly);
-			attrSel.addEventListener("change", function() {
-				updateCustomAttrsList(_attrs_);
-			});
-			document.getElementById(pendota.uiAttrSelectorId).appendChild(attrSel);
-			updateCustomAttrsList(_attrs_);
+			// Build attribute rows
+			for (var i = 0; i < _attrs_.length; i++) {
+				document.getElementById(pendota.uiAttrTableId).appendChild(createItemRow(_attrs_[i].attribute, _attrs_[i].value, "[" +_attrs_[i].attribute + "]='" + _attrs_[i].value + "'"));
+			}
+
+		
 		}
 
 		// Define the copy and add functions for all icons
