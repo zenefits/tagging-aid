@@ -64,6 +64,11 @@ chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 						});
 
 						chrome.tabs.executeScript({
+							file: "./src/scripts/selectorRules.js",
+							allFrames: true,
+						});
+
+						chrome.tabs.executeScript({
 							file: "./src/scripts/insertBaseDefinitions.js",
 							allFrames: true,
 						});
